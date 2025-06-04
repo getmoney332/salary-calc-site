@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>연봉 실수령액 계산기 | 2025 최신 기준</title>
+  <meta name="description" content="2025년 연봉 기준으로 세금 및 4대 보험을 제외한 월 실수령액을 계산해보세요.">
+  <meta name="keywords" content="연봉 계산기, 실수령액, 세후 연봉, 4대 보험, 월급 계산, 연봉 실수령액">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      max-width: 600px;
+      margin: 80px auto;
+    }
+    input, button {
+      padding: 12px;
+      font-size: 16px;
+      margin: 10px;
+      width: 80%;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>💰 연봉 실수령액 계산기</h1>
+  <p>연봉(세전)을 입력하면 2025년 기준으로 예상 실수령액을 계산합니다.</p>
+
+  <input type="number" id="salary" placeholder="연봉을 입력하세요 (원)">
+  <button onclick="calculate()">실수령액 계산하기</button>
+
+  <div class="result" id="output"></div>
+
+  <script>
+    function calculate() {
+      const input = document.getElementById("salary").value;
+      const salary = parseInt(input, 10);
+
+      if (isNaN(salary) || salary < 1000000) {
+        document.getElementById("output").textContent = "정확한 연봉을 입력해주세요.";
+        return;
+      }
+
+      const 국민연금 = salary * 0.045;
+      const 건강보험 = salary * 0.03545;
+      const 장기요양 = 건강보험 * 0.1281;
+      const 고용보험 = salary * 0.009;
+
+      const 총공제 = 국민연금 + 건강보험 + 장기요양 + 고용보험;
+      const 세후연봉 = salary - 총공제;
+      const 월실수령 = Math.floor(세후연봉 / 12);
+
+      document.getElementById("output").innerHTML =
+        `월 실수령액: <strong>${월실수령.toLocaleString()}원</strong><br>
+         연 실수령액: ${Math.floor(세후연봉).toLocaleString()}원<br><br>
+         <span style="font-size:13px;color:#888;">(국민연금·건강보험·장기요양·고용보험 기준)</span>`;
+    }
+  </script>
+</body>
+</html>
